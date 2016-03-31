@@ -13,6 +13,59 @@ void MergeSort(float vector[100000],int beg,int end,float B[100000])
 		vector[k] = B[k];							          
 }
 
+
+void AddtoHeap(struct node *root, int value)
+{
+	if (value < root->data)
+	{
+		if (root->left == NULL)
+		{
+			struct node *n;
+			n = (struct node*)malloc(sizeof(struct node));
+			n->data = value;
+			n->left = NULL;
+			n->right = NULL;
+			root->left = n;
+		}
+		else
+			AddtoHeap(root->left, value);
+	}
+	else
+	{
+		if (root->right == NULL)
+		{
+			struct node *n;
+			n = (struct node*)malloc(sizeof(struct node));
+			n->data = value;
+			n->left = NULL;
+			n->right = NULL;
+			root->right = n;
+		}
+		else
+			AddtoHeap(root->right, value);
+	}
+}
+
+void HeapSort(struct node *root)
+{
+	if (root->left != NULL)
+		HeapSort(root->left);
+	printf("%d ", root->data);
+	if (root->right != NULL)
+		HeapSort(root->right);
+}
+
+void ConstructHeap(int n,struct node *root)
+{
+	int el;
+	for (int i = 1;i <= n-1;i++)
+	{
+		scanf("%d", &el);
+		AddtoHeap(root, el);
+	}
+}
+
+
 void MergeParts(float A[100000],int beg,int mid,int end,float B[100000])
 {
 	int ind1, ind2;
@@ -50,3 +103,4 @@ void printarray(int n, float vector[100000])
 	printf("\n");
 
 }
+
