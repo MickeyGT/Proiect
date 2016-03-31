@@ -1,5 +1,16 @@
 #ifndef Library
 #define Library
+struct node
+{
+	int data;
+	struct note *right;
+	struct node *left;
+};
+void HeapSort(struct node* root);
+
+void ConstructHeap(int n, struct node *root);
+
+void AddtoHeap(struct node *root, int value);
 
 void MergeSort(float vector[100000], int beg, int end,float B[100000]);
 
