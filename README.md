@@ -1,3 +1,0 @@
-# Proiect-Programming-Tehniques
-
-Mickey
