@@ -12,6 +12,11 @@ int main()
 		printf("If you want to exit the program, please write '3' or 'Exit'.\n\n");
 		scanf("%s", &answer);
 		printf("\n");
+		
+		
+		
+		/// Lookup case
+		
 		if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Insert") == 0))       // The condition for the insert case.
 		{
 			printf("What word would you like to add to the dictionary?\n");
