@@ -1,1 +1,53 @@
-asdasd
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+char answer[100],word[100],definition[1000];
+int main()
+{
+	printf("Proiect Programming Tehniques by: Stoica Alexandru-Stefan si Turcu Gabriel-Virgil.\n\n");
+	do
+	{
+		printf("If you want to Insert a new word, please write '1' or 'Insert'.\n");
+		printf("If you want to Update the definition of an already existing word, please write '2' or 'Update'.\n");
+		printf("If you want to exit the program, please write '3' or 'Exit'.\n\n");
+		scanf("%s", &answer);
+		printf("\n");
+		if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Insert") == 0))       // The condition for the insert case.
+		{
+			printf("What word would you like to add to the dictionary?\n");
+			scanf("%s", word);
+			printf("\n");
+			printf("What is the definition for this word?\n");
+			scanf("%s", definition);
+
+
+		}
+		if ((strcmp(answer, "2") == 0) || (strcmp(answer, "Update") == 0))     // The condition for the update case.
+		{
+			printf("Would you like to add to the definiton of a word or write a new defintion for a word?.\n");                //
+			printf("If you'd like to add another definiton of a word, write 'Add' or '1'.\n");								  //  
+			printf("If you'd like to replace the definiton of a word, write 'Replace' or '2'.\n\n");						 //    Menu for using this option.
+			scanf("%s", answer);																							//
+			printf("What word would you like to modify?\n");															   //  
+			scanf("%s", word);																							  //
+			printf("\n");																								 //
+			if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Add") == 0))
+			{
+				printf("What is the new definition you'd like to add to the old one?\n");
+				scanf("%s", definition);
+
+
+			}
+			if ((strcmp(answer, "2") == 0) || (strcmp(answer, "Replace") == 0))
+			{
+				printf("What is the new definition that you'd like to have replace the old definition?\n");
+				scanf("%s", definition);
+
+
+			}
+		}
+	
+
+	} while ((strcmp(answer, "Exit") != 0) && (strcmp(answer, "3") != 0));
+	return 0;
+}
