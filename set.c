@@ -8,7 +8,7 @@ void set_init(set_node **set)
 	*set = NULL;
 }
 
-void left_rotate(set_node **root, set_node *node)
+static void left_rotate(set_node **root, set_node *node)
 {
 	//Set z as the right child
 	set_node *z = node->right;
@@ -39,7 +39,7 @@ void left_rotate(set_node **root, set_node *node)
 
 }
 
-void right_rotate(set_node **root, set_node *node)
+static void right_rotate(set_node **root, set_node *node)
 {
 	//Set z as the left child
 	set_node *z = node->left;
@@ -71,7 +71,7 @@ void right_rotate(set_node **root, set_node *node)
 
 }
 
-void set_insert(set_node **root, void *elem,int size, int (*cmp)(const void*, const void*))
+void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const void*, const void*))
 {
 	//If the set is empty then we will insert a node which is black
 	if(*root == NULL)
@@ -97,10 +97,12 @@ void set_insert(set_node **root, void *elem,int size, int (*cmp)(const void*, co
 		while (x != NULL)
 		{
 			y = x;
-			if (cmp(x->value, elem,size) >= 0)
+			if (cmp(x->value, elem,size) > 0)
 				x = x->left;
-			else if (cmp(x->value, elem,size) < 0)
+			else if (cmp(x->value, elem, size) < 0)
 				x = x->right;
+			else
+				return;
 		}
 		//Creating the node which needs to be inserted
 		x = malloc(sizeof(set_node));
@@ -114,7 +116,7 @@ void set_insert(set_node **root, void *elem,int size, int (*cmp)(const void*, co
 		memcpy(x->value, elem, size);
 
 		//Inserting the node to the left or the right of the parent,as in a binary search tree.
-		if (cmp(y->value, elem) >= 0)
+		if (cmp(y->value, elem) > 0)
 			y->left = x;
 		else
 			y->right = x;
@@ -202,12 +204,12 @@ void set_insert(set_node **root, void *elem,int size, int (*cmp)(const void*, co
 	}
 }
 
-void set_delete(set_node *set, void *elem,int size, int(*cmp)(const void*, const void*))
+void set_delete(set_node *set, void *elem,const int size, int(*cmp)(const void*, const void*))
 {
 	//TODO
 }
 
-int set_search(set_node *set, void *elem,int size, int(*cmp)(const void*, const void*))
+int set_search(set_node *set, void *elem,const int size, int(*cmp)(const void*, const void*))
 {
 	while (set != NULL)
 		if (cmp(set->value, elem) > 0)
@@ -219,7 +221,7 @@ int set_search(set_node *set, void *elem,int size, int(*cmp)(const void*, const 
 
    return 0;
 }
-void sort(set_node *root,void *dest,int size,int *n)
+void sort(set_node *root,void *dest,const int size,int *n)
 {
 	if (root != NULL)
 	{
