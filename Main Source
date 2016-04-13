@@ -1,9 +1,13 @@
 #include<stdio.h>
 #include<string.h>
 #include<ctype.h>
+#include "set.h"
 char answer[100],word[100],definition[1000];
 int main()
 {
+
+	set_node *set;
+	set_init(&set);
 	printf("Proiect Programming Tehniques by: Stoica Alexandru-Stefan si Turcu Gabriel-Virgil.\n\n");
 	do
 	{
@@ -12,19 +16,24 @@ int main()
 		printf("If you want to exit the program, please write '3' or 'Exit'.\n\n");
 		scanf("%s", &answer);
 		printf("\n");
-		
-		
-		
-		/// Lookup case
-		
 		if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Insert") == 0))       // The condition for the insert case.
 		{
 			printf("What word would you like to add to the dictionary?\n");
 			scanf("%s", word);
 			printf("\n");
-			printf("What is the definition for this word?\n");
-			scanf("%s", definition);
-
+			if (set_search(set, word, strlen(word) + 1, strcmp))
+				printf("Word is already defined. Please pick Update if you wish to update the definition.\n");
+			else
+			{
+				printf("What is the definition for this word?\n");
+				getchar();
+				gets(definition);
+				printf("\n");
+				set_insert(&set, word, strlen(word) + 1, strcmp);
+				FILE *f = fopen(word, "w");
+				fprintf(f, "%s", definition);
+				fclose(f);
+			}
 
 		}
 		if ((strcmp(answer, "2") == 0) || (strcmp(answer, "Update") == 0))     // The condition for the update case.
