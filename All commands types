@@ -1,5 +1,5 @@
 1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
-2 -> Splits into 2 cases: 1. Update a single definition.
+2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
                           2. Update the entire word
 3 -> Delete a word
 4 -> Look-up a word and it's definitions.
