@@ -2,66 +2,93 @@
 #include<string.h>
 #include<ctype.h>
 #include "set.h"
-char answer[100],word[100],definition[1000];
+int n,type,sectype,defnumber;
+char word[100],definition[100],eword[100][100],i,j,k;
 int main()
 {
-
+	/*
+	Different type explanations:
+	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+	2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases and can either be:update it, delete it or add a new one)
+	                          2. Update the entire word(clear the entire file and create a new one, which goes to case 4, deletion and then to case 1, to add a new definiton)
+							  3. Add a new definition for the respective word.
+	3 -> Delete a word
+	4 -> Look-up a word and it's definitions.
+	*/
+	FILE *fi = fopen("test","r");
 	set_node *set;
 	set_init(&set);
-	printf("Proiect Programming Tehniques by: Stoica Alexandru-Stefan si Turcu Gabriel-Virgil.\n\n");
-	do
+	fscanf(fi,"%d", &n);       // n represents the number of tests we're going to run through the program
+	for (k = 1;k <= n;k++)
 	{
-		printf("If you want to Insert a new word, please write '1' or 'Insert'.\n");
-		printf("If you want to Update the definition of an already existing word, please write '2' or 'Update'.\n");
-		printf("If you want to exit the program, please write '3' or 'Exit'.\n\n");
-		scanf("%s", &answer);
-		printf("\n");
-		if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Insert") == 0))       // The condition for the insert case.
-		{
-			printf("What word would you like to add to the dictionary?\n");
-			scanf("%s", word);
-			printf("\n");
-			if (set_search(set, word, strlen(word) + 1, strcmp))
-				printf("Word is already defined. Please pick Update if you wish to update the definition.\n");
-			else
+		fscanf(fi, "%d", &type);   // The command type
+		if (type == 1)             // Type 1 is for Inserting a word into the dictionary
+		{																				
+			fscanf(fi, "%s", word);
+			fgetc(fi);
+			fgets(definition, 100, fi);
+			if (!(set_search(set, word, strlen(word) + 1, strcmp)))         // First, we have to check if the word already exists and if it does, we ignore the Insert command.
 			{
-				printf("What is the definition for this word?\n");
-				getchar();
-				gets(definition);
-				printf("\n");
-				set_insert(&set, word, strlen(word) + 1, strcmp);
-				FILE *f = fopen(word, "w");
-				fprintf(f, "%s", definition);
+				set_insert(&set, word, strlen(word) + 1, strcmp);           // We insert the word in the set.
+				FILE *f = fopen(word, "w");																	
+				fprintf(f, "1\n");											// We will use the first line of the file to store the number of definitions our word has. In the insert case, we initialize it with 1.
+				fprintf(f, "%s\n", definition);								// Add the definition as the second line in the file.
 				fclose(f);
 			}
-
 		}
-		if ((strcmp(answer, "2") == 0) || (strcmp(answer, "Update") == 0))     // The condition for the update case.
-		{
-			printf("Would you like to add to the definiton of a word or write a new defintion for a word?.\n");                //
-			printf("If you'd like to add another definiton of a word, write 'Add' or '1'.\n");								  //  
-			printf("If you'd like to replace the definiton of a word, write 'Replace' or '2'.\n\n");						 //    Menu for using this option.
-			scanf("%s", answer);																							//
-			printf("What word would you like to modify?\n");															   //  
-			scanf("%s", word);																							  //
-			printf("\n");																								 //
-			if ((strcmp(answer, "1") == 0) || (strcmp(answer, "Add") == 0))
+		else  //trebuie testat ce e mai jos
+			if (type == 2)
 			{
-				printf("What is the new definition you'd like to add to the old one?\n");
-				scanf("%s", definition);
+				fscanf(fi, "%d", &sectype);
+				fgetc(fi);
+				if (sectype == 1)
+					fscanf(fi, "%d", &defnumber);
+				fscanf(fi, "%s", word);
+				fgetc(fi);
+				fgets(definition, 100, fi);
+				if (sectype == 1)
+				{
+					if (set_search(set, word, strlen(word) + 1, strcmp))
+					{
+						memset(eword, ' ', sizeof(eword));
+						FILE *f = fopen(word, "r");
+						for (i = 0;i <= 99;i++)
+							for (j = 0;j <= 99;j++)
+								fscanf(f, "%c", eword[i][j]);
+						for (i = 0;i <= 99;i++)
+							eword[defnumber][i] = definition[i];
+						fclose(f);
+						FILE *g = fopen(word, "w");
+						for (i = 0;i <= 99;i++)
+						{
+							for (j = 0;j <= 99;j++)
+								fprintf(g, "%c", eword[i][j]);
+							fprintf(g, "\n");
+						}
+						fclose(g);
+					}
+				}
+				if (sectype == 2)
+				{
 
+				}
+				if (sectype == 3)
+				{
 
+				}
 			}
-			if ((strcmp(answer, "2") == 0) || (strcmp(answer, "Replace") == 0))
-			{
-				printf("What is the new definition that you'd like to have replace the old definition?\n");
-				scanf("%s", definition);
+			else
+				if (type == 3)
+				{
+
+				}
+				else
+					if (type == 4)
+					{
+
+					}
 
 
-			}
-		}
-	
-
-	} while ((strcmp(answer, "Exit") != 0) && (strcmp(answer, "3") != 0));
+	}
 	return 0;
 }
