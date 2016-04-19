@@ -1,6 +1,7 @@
-1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
-2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)(update it,delete it,add a new one)
-                          2. Update the entire word(clear the entire definition file and create a new one,which goes to case 1,add a new definiton)
-3 -> Delete a word
-4 -> Look-up a word and it's definitions.
-                          
+Different type explanations:
+	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+	2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases and can either be:update it, delete it or add a new one)
+	                          2. Update the entire word(clear the entire file and create a new one, which goes to case 4, deletion and then to case 1, to add a new definiton)
+							  3. Add a new definition for the respective word.
+	3 -> Delete a word
+	4 -> Look-up a word and it's definitions.
