@@ -2,18 +2,18 @@
 #include<string.h>
 #include<ctype.h>
 #include "set.h"
-int n,type,sectype,defnumber;
-char word[100],definition[100],eword[100][100],i,j,k;
+int n,type,sectype,defnumber,i, j, k, defnum;
+char word[100],definition[100],eword[100][100];
 int main()
 {
 	/*
 	Different type explanations:
 	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
-	2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases and can either be:update it, delete it or add a new one)
-	                          2. Update the entire word(clear the entire file and create a new one, which goes to case 4, deletion and then to case 1, to add a new definiton)
+	2 -> Splits into 2 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
+	                          2. Clear the word definitions.
 							  3. Add a new definition for the respective word.
 	3 -> Delete a word
-	4 -> Look-up a word and it's definitions.
+	4 -> Look-up a word and its definitions.
 	*/
 	FILE *fi = fopen("test","r");
 	set_node *set;
@@ -23,7 +23,7 @@ int main()
 	{
 		fscanf(fi, "%d", &type);   // The command type
 		if (type == 1)             // Type 1 is for Inserting a word into the dictionary
-		{																				
+		{		
 			fscanf(fi, "%s", word);
 			fgetc(fi);
 			fgets(definition, 100, fi);
@@ -36,7 +36,7 @@ int main()
 				fclose(f);
 			}
 		}
-		else  //trebuie testat ce e mai jos
+		else  
 			if (type == 2)
 			{
 				fscanf(fi, "%d", &sectype);
@@ -50,18 +50,18 @@ int main()
 				{
 					if (set_search(set, word, strlen(word) + 1, strcmp))
 					{
-						memset(eword, ' ', sizeof(eword));
 						FILE *f = fopen(word, "r");
-						for (i = 0;i <= 99;i++)
-							for (j = 0;j <= 99;j++)
-								fscanf(f, "%c", eword[i][j]);
-						for (i = 0;i <= 99;i++)
-							eword[defnumber][i] = definition[i];
+						fscanf(f, "%d", &defnum);
+						fgetc(f);
+						for (i = 0;i <= defnum-1;i++)
+							fgets(eword[i], 100, f);
+						strcpy(eword[defnumber-1], definition);
 						fclose(f);
 						FILE *g = fopen(word, "w");
-						for (i = 0;i <= 99;i++)
+						fprintf(g, "%d\n", defnum);
+						for (i = 0;i <= defnum-1;i++)
 						{
-							for (j = 0;j <= 99;j++)
+							for (j = 0;eword[i][j]!='\0';j++)
 								fprintf(g, "%c", eword[i][j]);
 							fprintf(g, "\n");
 						}
@@ -70,12 +70,37 @@ int main()
 				}
 				if (sectype == 2)
 				{
-
+					if (set_search(set, word, strlen(word) + 1, strcmp))
+					{
+						FILE *f = fopen(word, "w");
+						fprintf(f, "0\n");
+						fclose(f);
+					}
 				}
 				if (sectype == 3)
 				{
-
+					if (set_search(set, word, strlen(word) + 1, strcmp))
+					{
+						FILE *f = fopen(word, "r");
+						fscanf(f, "%d", &defnum);
+						fgetc(f);
+						for (i = 0;i <= defnum - 1;i++)
+							fgets(eword[i], 100, f);
+						defnum++;
+						strcpy(eword[defnum-1], definition);
+						fclose(f);
+						FILE *g = fopen(word, "w");
+						fprintf(g, "%d\n", defnum);
+						for (i = 0;i <= defnum - 1;i++)
+						{
+							for (j = 0;eword[i][j] != '\0';j++)
+								fprintf(g, "%c", eword[i][j]);
+						}
+						fprintf(g, "\n");
+						fclose(g);
+					}
 				}
+				
 			}
 			else
 				if (type == 3)
