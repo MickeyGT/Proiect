@@ -221,14 +221,3 @@ int set_search(set_node *set, void *elem,const int size, int(*cmp)(const void*, 
 
    return 0;
 }
-void sort(set_node *root,void *dest,const int size,int *n)
-{
-	if (root != NULL)
-	{
-		sort(root->left, dest,size,n);
-
-		memcpy(((char*)dest + (*n)*size), root->value, size);
-		*n = *n + 1;
-		sort(root->right, dest, size, n);
-	}
-}
