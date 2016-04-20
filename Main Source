@@ -69,8 +69,9 @@ int main()
 						{                                           //  Sequence for writing our modified matrix back in the file. 
 							for (j = 0;eword[i][j]!='\0';j++)       // 
 								fprintf(g, "%c", eword[i][j]);      //
-							fprintf(g, "\n");                       //
-						}                                           //
+						                                            // 
+						}
+						fprintf(g, "\n");                          
 						fclose(g);
 					}
 				}
