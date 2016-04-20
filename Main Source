@@ -2,17 +2,17 @@
 #include<string.h>
 #include<ctype.h>
 #include "set.h"
-int n,type,sectype,defnumber,i, j, k, defnum;
-char word[100],definition[100],eword[1000][1000];
+int n, type, sectype, defnumber, i, j, k, defnum;
+char word[100], definition[100], eword[1000][1000];
 int main()
 {
 	/*
 	Different type explanations:
 	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
 	2 -> Splits into 4 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
-	                          2. Clear the word definitions.
-							  3. Add a new definition for the respective word.
-							  4. Remove a single definiton.(Will be given as a parameter in the test cases)
+	2. Clear the word definitions.
+	3. Add a new definition for the respective word.
+	4. Remove a single definiton.(Will be given as a parameter in the test cases)
 	3 -> Look-up a word and show its definitions.
 	4 -> Delete a word.
 
@@ -20,37 +20,37 @@ int main()
 	First line will represent the number of definitions our word has.(defnum)
 	The next defnum lines will consist of strings where each one represents a definition for that word.
 	*/
-	FILE *fi = fopen("test5.out","r");
+	FILE *fi = fopen("test5.out", "r");
 	set_node *set;
 	set_init(&set);
-	fscanf(fi,"%d", &n);                 // n represents the number of tests we're going to run through the program
+	fscanf(fi, "%d", &n);                 // n represents the number of tests we're going to run through the program
 	for (k = 1;k <= n;k++)
 	{
 		fscanf(fi, "%d", &type);                 // The command type
 		if (type == 1)                 // Type 1 is for Inserting a word into the dictionary
-		{		
+		{
 			fscanf(fi, "%s", word);
 			fgetc(fi);
 			fgets(definition, 100, fi);
 			if (!(set_search(set, word, strlen(word) + 1, strcmp)))                 // First, we have to check if the word already exists and if it does, we ignore the Insert command.
 			{
 				set_insert(&set, word, strlen(word) + 1, strcmp);                 // We insert the word in the set.
-				FILE *f = fopen(word, "w");																	
+				FILE *f = fopen(word, "w");
 				fprintf(f, "1\n");                 // We will use the first line of the file to store the number of definitions our word has. In the insert case, we initialize it with 1.
 				fprintf(f, "%s\n", definition);                 // Add the definition as the second line in the file.
 				fclose(f);
 			}
 		}
-		else  
+		else
 			if (type == 2)                 // Type 2 is for updating a word and it's definitions.
 			{
 				fscanf(fi, "%d", &sectype);                 // The secondary type of our 4 cases mentioned above at main type 2.
 				fgetc(fi);
-				if ((sectype == 1)||(sectype==4))                 // For secondary type 1 and 4 we will also require the definition number we will update or delete. 
+				if ((sectype == 1) || (sectype == 4))                 // For secondary type 1 and 4 we will also require the definition number we will update or delete. 
 					fscanf(fi, "%d", &defnumber);
 				fscanf(fi, "%s", word);
 				fgetc(fi);
-				if(sectype!=4)                 // If secondary type is 4 we will not require a definition and therefore not read one.
+				if (sectype != 4)                 // If secondary type is 4 we will not require a definition and therefore not read one.
 					fgets(definition, 100, fi);
 				if (sectype == 1)
 				{
@@ -59,19 +59,19 @@ int main()
 						FILE *f = fopen(word, "r");
 						fscanf(f, "%d", &defnum);                 // We read the number of definitions our word currently has.
 						fgetc(f);
-						for (i = 0;i <= defnum-1;i++)
+						for (i = 0;i <= defnum - 1;i++)
 							fgets(eword[i], 100, f);                 // Here we put all our definitions in a char matrix, one for each line.
-						strcpy(eword[defnumber-1], definition);                 // We update the definition by writing over it in the matrix our new definition.
+						strcpy(eword[defnumber - 1], definition);                 // We update the definition by writing over it in the matrix our new definition.
 						fclose(f);
 						FILE *g = fopen(word, "w");                 // 
 						fprintf(g, "%d\n", defnum);                 // 
-						for (i = 0;i <= defnum-1;i++)               // 
+						for (i = 0;i <= defnum - 1;i++)             // 
 						{                                           //  Sequence for writing our modified matrix back in the file. 
-							for (j = 0;eword[i][j]!='\0';j++)       // 
+							for (j = 0;eword[i][j] != '\0';j++)     // 
 								fprintf(g, "%c", eword[i][j]);      //
-						                                            // 
+																	// 
 						}
-						fprintf(g, "\n");                          
+						fprintf(g, "\n");
 						fclose(g);
 					}
 				}
@@ -94,7 +94,7 @@ int main()
 						for (i = 0;i <= defnum - 1;i++)
 							fgets(eword[i], 100, f);
 						defnum++;                 // We increase the defnumber since we've added a new one in this case.
-						strcpy(eword[defnum-1], definition);                 // We add the new definition on the last line of the matrix.
+						strcpy(eword[defnum - 1], definition);                 // We add the new definition on the last line of the matrix.
 						fclose(f);
 						FILE *g = fopen(word, "w");
 						fprintf(g, "%d\n", defnum);
@@ -117,21 +117,21 @@ int main()
 						for (i = 0;i <= defnum - 1;i++)                 // Reading the matrix of definitions from the file.
 							fgets(eword[i], 100, f);
 						for (i = defnumber;i <= defnum - 1;i++)
-							strcpy(eword[i-1], eword[i]);                 // For each definition after the one we want to delete, we just move them one row back, deleting the definition we wanted to remove.
+							strcpy(eword[i - 1], eword[i]);                 // For each definition after the one we want to delete, we just move them one row back, deleting the definition we wanted to remove.
 						defnum--;                 // We decrease the number of definitions since we just deleted one.
 						fclose(f);
 						FILE *g = fopen(word, "w");
 						fprintf(g, "%d\n", defnum);
-						for (i = 0;i <= defnum - 1;i++)
+						for (i = 0;i <= defnum - 1;i++)                         //
 						{														//
 							for (j = 0;eword[i][j] != '\0';j++)                 //    Sequence for writing our modified matrix back in the file.  
 								fprintf(g, "%c", eword[i][j]);                  //
 						}														//
-						fprintf(g, "\n");
+						fprintf(g, "\n");                                       //
 						fclose(g);
 					}
 				}
-				
+
 			}
 			else
 				if (type == 3)                 // Type 3 for looking up a word's definitions and displaying them in the console.
@@ -158,7 +158,7 @@ int main()
 				else
 					if (type == 4)
 					{
-					
+
 					}
 
 
