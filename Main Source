@@ -10,11 +10,10 @@ int main()
 	Different type explanations:
 	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
 	2 -> Splits into 4 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
-	2. Clear the word definitions.
-	3. Add a new definition for the respective word.
-	4. Remove a single definiton.(Will be given as a parameter in the test cases)
+				  2. Clear the word definitions.
+	                          3. Add a new definition for the respective word.
+	                          4. Remove a single definiton.(Will be given as a parameter in the test cases)
 	3 -> Look-up a word and show its definitions.
-	4 -> Delete a word.
 
 	How the file layout for each word will be:
 	First line will represent the number of definitions our word has.(defnum)
@@ -155,13 +154,6 @@ int main()
 						fclose(f);
 					}
 				}
-				else
-					if (type == 4)
-					{
-
-					}
-
-
 	}
 	system("pause");
 	return 0;
