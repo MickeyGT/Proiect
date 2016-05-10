@@ -3,7 +3,7 @@
 #include<ctype.h>
 #include "set.h"
 int n, type, sectype, defnumber, i, j, k, defnum;
-char word[100], definition[100], eword[1000][1000];
+char word[100], definition[100], eword[1000][100];
 int main()
 {
 	/*
