@@ -17,8 +17,8 @@ static void left_rotate(set_node **root, set_node *node)
 	node->right = z->left;
 
 	//If the right child,now moved is not null it means that is has a parent and we must update it
-	if (node->right != NULL)
-		node->right->parent = node;
+	if (z->left != NULL)
+		z->left->parent = node;
 
 	//Update the parent of the initial right child of the node
 	z->parent = node->parent;
@@ -49,8 +49,8 @@ static void right_rotate(set_node **root, set_node *node)
 	node->left = z->right;
 
 	//If the left child,now moved is not null it means that is has a parent and we must update it
-	if (node->left != NULL)
-		node->left->parent = node;
+	if (z->right!= NULL)
+		z->right->parent = node;
 	
 	//Update the parent of the initial left child of the node
 	z->parent = node->parent;
@@ -58,10 +58,10 @@ static void right_rotate(set_node **root, set_node *node)
 	//Update the child of the parent of the initial node
 	if (node->parent == NULL)
 		(*root) = z;
-	else if (node->parent->left == node)
-		node->parent->left = z;
-	else
+	else if (node->parent->right == node)
 		node->parent->right = z;
+	else
+		node->parent->left = z;
 	
 	//Update the child of the the left child of the initial node
 	z->right = node;
@@ -97,9 +97,9 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 		while (x != NULL)
 		{
 			y = x;
-			if (cmp(x->value, elem,size) > 0)
+			if (cmp(x->value, elem) > 0)
 				x = x->left;
-			else if (cmp(x->value, elem, size) < 0)
+			else if (cmp(x->value, elem) < 0)
 				x = x->right;
 			else
 				return;
