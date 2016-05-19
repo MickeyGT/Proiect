@@ -7,11 +7,14 @@ int n, type, sectype, defnumber, i, j, k, defnum;
 char word[100], definition[100], eword[1000][100];
 set_node *set;
 FILE *fi;
-void Reading()
+int Reading()
 {
-	fi = fopen("test10.out", "r");
+	fi = fopen("test1sss0.out", "r");
+	if (fi == NULL)
+		return 0;
 	set_init(&set);
-	fscanf(fi, "%d", &n);        // n represents the number of tests we're going to run through the program
+	fscanf(fi, "%d", &n); // n represents the number of tests we're going to run through the program
+	return 1;
 }
 void Precompute()
 {
@@ -160,7 +163,11 @@ int main()
 	First line will represent the number of definitions our word has.(defnum)
 	The next defnum lines will consist of strings where each one represents a definition for that word.
 	*/
-	Reading();
+	if (!Reading())
+	{
+		printf("The file couldn't be opened.");
+		return 0;
+	}
 	for (k = 1;k <= n;k++)
 		Precompute();
 	system("pause");
