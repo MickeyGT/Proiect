@@ -44,14 +44,14 @@ static void right_rotate(set_node **root, set_node *node)
 	//Set z as the left child
 	set_node *z = node->left;
 
-	
+
 	//Left child of node becomes the right child of the left child of the node
 	node->left = z->right;
 
 	//If the left child,now moved is not null it means that is has a parent and we must update it
 	if (z->right!= NULL)
 		z->right->parent = node;
-	
+
 	//Update the parent of the initial left child of the node
 	z->parent = node->parent;
 
@@ -62,7 +62,7 @@ static void right_rotate(set_node **root, set_node *node)
 		node->parent->right = z;
 	else
 		node->parent->left = z;
-	
+
 	//Update the child of the the left child of the initial node
 	z->right = node;
 
@@ -80,7 +80,7 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 
 		(*root)->color = BLACK; //Setting the color black of the first node
 		(*root)->value = malloc(size); //Allocating size for the value which needs to be stored
-		
+
 		memcpy((*root)->value, elem, size); //Copying the element into the node
 
 		(*root)->left = (*root)->right = (*root)->parent = NULL; //setting the  children and the parent of the first node as non_existent(they are considered as black nodes)
@@ -92,7 +92,7 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 
 		set_node *y = NULL; //Parent of the node
 		set_node *x = *root; //Current node
-		
+
 		//We do the same search as in a Binary Search Tree, except in case of equality we return since the elements need to be unique
 		while (x != NULL)
 		{
@@ -121,7 +121,7 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 		else
 			y->right = x;
 
-		
+
 		/*While the parent of the inserted root is red then we are violating the case in which
 		  both child and parent should not be red*/
 
@@ -134,7 +134,7 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 				//Store the uncle of the parent
 				y = x->parent->parent->right;
 
-				/*Uncle is red so we can make the parent of the uncle red(if is not the root) and 
+				/*Uncle is red so we can make the parent of the uncle red(if is not the root) and
 				  the parent of  the current node and uncle black*/
 				if (y != NULL && y->color == RED)
 				{
@@ -204,12 +204,7 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 	}
 }
 
-void set_delete(set_node *set, void *elem,const int size, int(*cmp)(const void*, const void*))
-{
-	//TODO
-}
-
-int set_search(set_node *set, void *elem,const int size, int(*cmp)(const void*, const void*))
+int set_search(set_node *set, void *elem, int(*cmp)(const void*, const void*))
 {
 	while (set != NULL)
 		if (cmp(set->value, elem) > 0)

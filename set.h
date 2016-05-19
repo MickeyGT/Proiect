@@ -33,7 +33,7 @@ void set_insert(set_node **set, void *elem, const int size, int(*cmp)(const void
 void set_delete(set_node *set, void *elem, const int size, int(*cmp)(const void*, const void*));
 
 //Searching an element in the set based on a custom defined comparation function
-int set_search(set_node *set, void *elem,const int size, int(*cmp)(const void*, const void*));
+int set_search(set_node *set, void *elem, int(*cmp)(const void*, const void*));
 
 
 
