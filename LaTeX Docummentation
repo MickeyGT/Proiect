@@ -1,0 +1,357 @@
+% simple.tex - A simple article to illustrate document structure.
+
+% preamble
+
+\documentclass{article}
+%% \usepackage{times}
+\usepackage{latexsym}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage{graphicx}
+
+\begin{document}
+
+% top matter
+
+\title{Programming Techniques Project, Spring 2016 Application 6: A dictionary application}
+\author{Stoica Alexandru-\c{S}tefan and Turcu Gabriel-Virgil }
+\date{Computer Science English Section First Year Group 10106B}
+\maketitle
+\pagebreak
+
+
+
+% sections
+\section{Problem statement}
+(Team of 2) Write a dictionary application. The dictionary should allow for in-
+serting a word, updating the definition of an existing word and looking up defi-
+nition of a word. Note that a word may have multiple definitions attached to it.
+The dictionary should use files for storing and loading its data. \linebreak
+The alghorithm should be able to Insert a new word to the dictionary, Update a word from the dictionary
+in multiple ways and Look-up and display a word's definitions.
+\linebreak
+\linebreak
+This is how the input will be given in the test file:
+	Different type explanations:
+	\begin{enumerate}	\item Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+		\item \begin{enumerate} \item[1] Update a single definition.(Will be given as a parameter in the test cases)
+		\item[2] Clear the word definitions.
+		\item[3] Add a new definition for the respective word.
+		\item[4] Remove a single definiton.(Will be given as a parameter in the test cases) \end{enumerate}
+		\item Look-up a word and show its definitions.\end{enumerate}
+
+	
+	How the file layout for each word will be:
+	The name of the file will be the name of the word.
+	First line will represent the number of definitions our word has.(defnum)
+	The next defnum lines will consist of strings where each one represents a definition for that word.
+%%This document is about \LaTeX{}~\cite{lamport94}
+\pagebreak
+\section{Pseudocode}
+\mbox{For the set.c functions the following pseudocode has been used:}
+\linebreak
+\linebreak
+\mbox{The following pseudocode for the Insert function:}
+\linebreak
+\includegraphics{Screenshot_1.png}
+\mbox{The following pseudocode for the Left-Rotate and Right-Rotate functions:}
+\linebreak
+\includegraphics{Screenshot_2.png}
+\linebreak
+
+\begin{figure}[t]
+	\begin{center}
+		\begin{tabbing}
+			Main Source \\
+			1. \indent Read n from input file.\\
+			2. \indent {\bf for} \=$k \leftarrow 1$,$n$ {\bf do} \\
+			3. \indent            \> $\rhd$ Call the $Precompute$ function \\
+		\end{tabbing}
+	\end{center}
+\end{figure}
+
+\begin{figure}[t]
+	\begin{center}
+		\begin{tabbing}
+			Precompute function \\
+			1. \indent Read the type of the command from input file.\\
+			2. \indent {\bf if} \=$type == 1$ {\bf do} \\
+			3. \indent			  \> $\rhd$ Read the necessaries for the insert sequence \\
+			4. \indent            \> $\rhd$ Do the insert sequence \\
+			5. \indent {\bf if} \=$type == 2$ {\bf do} \\
+			6. \indent			  \> $\rhd$ Read the necessaries for the update sequence \\
+			7. \indent            \> $\rhd$ Do the update sequence \\
+			8. \indent {\bf if} \=$type == 3$ {\bf do} \\
+			9. \indent			  \> $\rhd$ Read the necessaries for the search sequence \\
+			10. \indent            \> $\rhd$ Do the search sequence \\
+		\end{tabbing}
+	\end{center}
+\end{figure}
+
+\section{Application Design}
+
+\begin{itemize}
+
+\item
+The high level architectural overview of the application.
+
+\item
+The Specification of the input.
+
+\item
+The Specification of the output.
+
+\item
+The list of all the modules in the application and their description.
+
+\item
+The list of all the functions in the application, grouped by modules.
+\end{itemize}
+
+
+\subsection{Technical report}
+
+The technical report should describe briefly, concisely and clearly your work and achievements for the project. The description must contain your project task (problem), how did you develop the software and the outcome of your work. More details are given in section~\ref{sec_tr}.
+
+\subsection{Source code}\label{subsec_source_code}
+The source code should contain the source modules of your software (\emph{.c} and \emph{.h} files). The software should be developed using Standard C. The source files will not use compiler specific extensions. The source code should be accompanied by command lines for building the executables, as well as by \emph{makefiles}. More details are given in section~\ref{sec_sc}.
+
+\subsection{Experimental data and results}
+You should check your software on non-trivial input data. You should provide at least 5 non-trivial input data sets, and the corresponding outputs produced by your software. The source code for generating non-trivial input data will be provided as it is described in subsection \ref{subsec_source_code}. More details are given in section~\ref{sec_ed}.
+
+
+\section{Technical report}\label{sec_tr}
+
+The technical report must be typeset using \LaTeX and provided in printed, as well as in electronic form (PDF and sources). For documentation about \LaTeX~you can consult reference~\cite{latex}.
+
+The technical report must be divided into a number of sections, including:
+
+\begin{itemize}
+
+\item[i)]
+Cover page
+
+\item[ii)]
+Problem statement
+
+\item[iii)]
+Pseudocode
+
+\item[iv)]
+Application design
+
+\item[v)]
+Conclusions
+
+\item[vi)]
+References
+
+\end{itemize}
+
+\subsection{Cover page}
+This is a one-page section containing the title of the project, the name of the student, the group, year and section where the student is enrolled.
+
+\subsection{Problem statement}
+This section is the introduction of your technical report. It should describe clearly the task of your project.
+
+\subsection{Pseudocode}
+This section should contain the pseudocode description of your algorithm. The pseudocode should use the format introduced in~\cite{cormen09}. An example is shown in figure~\ref{fig_alg_ex}.
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabbing}
+INSERTION-SORT($A$) \\
+1. \indent{\bf for} \=$j \leftarrow 2$,$length[A]$ {\bf do} \\
+2. \indent            \> $key \leftarrow A[j]$ \\
+3. \indent            \> $\rhd$ Insert $A[j]$ into the sorted sequence $A[1 \dots j-1]$ \\
+4. \indent            \> $i \leftarrow j-1$ \\
+5. \indent            \>{\bf while} \=$i>0$ and $A[i] > key$ {\bf do} \\
+6. \indent            \>            \> $A[i+1] \leftarrow A[i]$ \\
+7. \indent            \>            \> $i \leftarrow i-1$ \\
+8. \indent            \> $A[i+1] \leftarrow key$
+\end{tabbing}
+\caption{Example for typesetting an algorithm.}
+\label{fig_alg_ex}
+\end{center}
+\end{figure}
+
+\subsection{Application design}
+
+This section must contain a detailed description of the application design containing the following items:
+
+\begin{itemize}
+
+\item
+the high level architectural overview of the application
+
+\item
+the specification of the input
+
+\item
+the specification of the output
+
+\item
+the list of all the modules in the application and their description
+
+\item
+the list of all the functions in the application, grouped by modules; for
+every function the following details must be provided:
+
+\begin{itemize}
+
+\item
+the description of what the function does
+
+\item
+a description of every parameter, and
+
+\item
+the meaning of the return value
+
+\end{itemize}
+
+\end{itemize}
+
+Your application design must also address the method for automated generation of input test data.
+
+\subsection{Conclusions}
+This section must contain your own conclusions after performing the project work. Some suggestions about what to include in the list of conclusions are: a summary of your achievements, which were the most challenging and interesting parts and why, future directions for extending the project in short and long term, a.o.
+
+\subsection{References}
+You should include here a list of bibliographic references that are cited in the text of the technical report. They can include: textbooks, journal articles, conference proceedings papers, and Web references.
+
+\section{Source code}\label{sec_sc}
+
+The source code must contain the complete source of your application, including \emph{.c} files, header files (\emph{.h}), and makefiles.
+
+The following requirements must be met by the source code. They will directly influence the grading of your project.
+
+\begin{itemize}
+
+\item
+The project code must successfully compile and build; when using GCC the build process should use the \emph{make} tool and a makefile
+
+\item
+The code must follow the \href{http://en.wikipedia.org/wiki/C99}{C99} standard (e.g. no compiler-specific extensions)
+
+\item
+The code must be portable; it must compile under two different compilers (e.g. Visual C++ and GCC)
+
+\item
+The code must use an \href{http://en.wikipedia.org/wiki/Indent_style}{indent style} and address at least the following issues:
+
+\begin{itemize}
+
+\item
+blocks must be indented using 4 spaces (no tabs)
+
+\item
+every control construct (e.g. \emph{if}, \emph{else}, \emph{while}, \emph{for}. \emph{switch} ) must be braced -- even those with single-line bodies:
+
+\item
+the variable names should be descriptive, but not verbose
+
+\item
+the use of global variables should be kept to a minimum
+
+\item
+the use of preprocessor macros should be kept to a minimum
+\end{itemize}
+
+\item
+The code should be commented (every function and important variables and code blocks inside functions). You must use the commenting style proposed by \href{http://www.doxygen.org/}{Doxygen} for C-like programming languages. Your source code must be accompanied by code documentation in \LaTeX automatically generated using Doxygen, based on the comments that you added to your code.
+
+
+\item
+The code must be modular (minimum 2 \emph{.c} files and minimum one \emph{.h} file)
+
+\item
+You must use an automated method for generating non-trivial input test data
+\end{itemize}
+
+\section{Experiments and results}\label{sec_ed}
+In this section you must explain the method that you used for testing your application, as well as the experimental results.
+
+The experimental results will contain:
+
+\begin{itemize}
+\item
+A description of the output data that you obtained by running your algorithm, as well as the method that you used to test that this output is correct according to the algorithm specification.
+
+\item
+Optionally, the execution time of your algorithm, for each input data set.
+
+\end{itemize}
+
+You must also present the results (and optionally the recorded execution time) of your experiments in a meaningful way for the reader. The presentation method is left for your choice.
+
+\section{Schedule}
+
+Your project activity must follow two milestones:
+
+\begin{itemize}
+
+\item
+Intermediary report. It is a report containing at least the following items:
+
+\begin{itemize}
+\item
+Cover page
+
+\item
+Problem statement
+
+\item
+Pseudocode
+
+\item
+Sketch of application design
+
+\end{itemize}
+
+\item
+Set of final deliverables required by the project.
+
+\end{itemize}
+
+\section{Grading}
+The grading of your project will take into account all the elements presented in this document:
+
+\begin{itemize}
+\item
+The structure and content of the technical report should follow the requirements stated in section~\ref{sec_tr}.
+
+\item
+The structure and content of the source code should follow the requirements stated in section~\ref{sec_sc}.
+
+\item
+The content of the experimental data and results should comply with the requirements stated in section~\ref{sec_ed}.
+
+\end{itemize}
+
+% bibliography
+\begin{thebibliography}{9}
+
+	\bibitem{lamport94}
+	  Leslie Lamport,
+	  \emph{\LaTeX: A Document Preparation System}.
+	  Addison Wesley, Massachusetts,
+	  2nd Edition,
+	  1994.
+
+	\bibitem{cormen09}
+	  Thomas H. Cormen and Charles E. Leiserson and Ronald L. Rivest and Clifford Stein,
+	  \emph{Introduction to Algorithms}.
+	  MIT Press,
+	  3rd Edition,
+	  2009.
+
+    \bibitem{latex}
+     \LaTeX project site,
+     \url{http://latex-project.org/},
+     accessed in April 2013.
+
+\end{thebibliography}
+
+\end{document}
