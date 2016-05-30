@@ -1,3 +1,10 @@
+/**
+*@mainpage
+* \brief \b Problem \b Application 6: A dictionary application
+* \author Turcu Gabriel and Stoica Alexandru
+* \date 30.05.2016
+*/
+
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -26,6 +33,7 @@ char definition[100];
 /** The char matrix eword is used to store the entire content of the word we're currently updating.*/
 char eword[1000][100]; 
 set_node *set;
+///> This is the file that contains the commands for the program.
 FILE *fi;
 /** Reading function used to initialize and see if our file exists and if it does, it reads n. @see n*/
 int Reading()
@@ -37,41 +45,52 @@ int Reading()
 	fscanf(fi, "%d", &n); 
 	return 1;
 }
-void InsertSequence()    /// This function deals with Inserting a new word to the dictionary.
+/** This function deals with Inserting a new word to the dictionary. @see word , definition and type .*/
+void InsertSequence()    
 {
+	/*!
+	* 	\param word The vector word is used to store the word we're currently inserting.
+	* 	\param definition The vector definition is used to store the current definition we're going to insert.
+	*/
+
 	fscanf(fi, "%s", word);
 	fgetc(fi);
 	fgets(definition, 100, fi);
-	if (!(set_search(set, word, strcmp)))                 // First, we have to check if the word already exists and if it does, we ignore the Insert command.
+	///> We check if the word already exists and if it does not, we proceed with the InsertSequence().
+	if (!(set_search(set, word, strcmp)))                 
 	{
-		set_insert(&set, word, strlen(word) + 1, strcmp);                 // We insert the word in the set.
+		///> We use set_insert() to insert the word in the set.
+		set_insert(&set, word, strlen(word) + 1, strcmp);   
 		FILE *f = fopen(word, "w");
 		fprintf(f, "1\n");                 // We will use the first line of the file to store the number of definitions our word has. In the insert case, we initialize it with 1.
-		fprintf(f, "%s\n", definition);                 // Add the definition as the second line in the file.
+		fprintf(f, "%s\n", definition);                 // The definition as the second line in the file.
 		fclose(f);
 	}
 }
 
 void UpdateSequence()         /// This function deals with Updating a word from the dictionary.
 {
-	fscanf(fi, "%d", &sectype);                 // The secondary type of our 4 cases mentioned above at main type 2.
+	/// \param sectype The secondary type of our 4 cases mentioned above at main type 2
+	fscanf(fi, "%d", &sectype);                 
 	fgetc(fi);
-	if ((sectype == 1) || (sectype == 4))                 // For secondary type 1 and 4 we will also require the definition number we will update or delete. 
+	/// \param defnumber The number that represents the definition we'll update or remove.
+	if ((sectype == 1) || (sectype == 4))                 /// For secondary type 1 and 4 we will also require the definition number we will update or delete. 
 		fscanf(fi, "%d", &defnumber);
 	fscanf(fi, "%s", word);
 	fgetc(fi);
-	if (sectype != 4 && sectype != 2)                 // If secondary type is 2 or 4 we will not require a definition and therefore not read one.
+	if (sectype != 4 && sectype != 2)                 /// If secondary type is 2 or 4 we will not require a definition and therefore not read one.
 		fgets(definition, 100, fi);
-	if (sectype == 1)
+	/// ---------------------------------------------------------------------
+	if (sectype == 1)               /// Secondary type 1 for updating a specific definition.
 	{
 		if (set_search(set, word, strcmp))
 		{
 			FILE *f = fopen(word, "r");
-			fscanf(f, "%d", &defnum);                 // We read the number of definitions our word currently has.
+			fscanf(f, "%d", &defnum);                 /// We read the number of definitions our word currently has.
 			fgetc(f);
 			for (i = 0;i <= defnum - 1;i++)
-				fgets(eword[i], 100, f);                 // Here we put all our definitions in a char matrix, one for each line.
-			strcpy(eword[defnumber - 1], definition);                 // We update the definition by writing over it in the matrix our new definition.
+				fgets(eword[i], 100, f);                 /// We put all our definitions in a char matrix, one for each line.
+			strcpy(eword[defnumber - 1], definition);                 /// We update the definition by writing over it in the matrix our new definition.
 			fclose(f);
 			FILE *g = fopen(word, "w");                 // 
 			fprintf(g, "%d\n", defnum);                 // 
@@ -85,16 +104,18 @@ void UpdateSequence()         /// This function deals with Updating a word from 
 			fclose(g);
 		}
 	}
-	if (sectype == 2)                 // Secondary type 2 for clearing a word of its definitions.
+	/// ---------------------------------------------------------------------
+	if (sectype == 2)                 /// Secondary type 2 for clearing a word of its definitions.
 	{
 		if (set_search(set, word, strcmp))
 		{
 			FILE *f = fopen(word, "w");
-			fprintf(f, "0\n");                 // In order to clear a word of its definitions, we just reset the number of definitions on the first line with 0.
+			fprintf(f, "0\n");                 /// In order to clear a word of its definitions, we just reset the number of definitions on the first line with 0.
 			fclose(f);
 		}
 	}
-	if (sectype == 3)                 // Secondary type 3 for adding a new definition in the end to an already existing word.
+	/// ---------------------------------------------------------------------
+	if (sectype == 3)                 /// Secondary type 3 for adding a new definition in the end to an already existing word.
 	{
 		if (set_search(set, word, strcmp))
 		{
@@ -103,8 +124,8 @@ void UpdateSequence()         /// This function deals with Updating a word from 
 			fgetc(f);
 			for (i = 0;i <= defnum - 1;i++)
 				fgets(eword[i], 100, f);
-			defnum++;                 // We increase the defnumber since we've added a new one in this case.
-			strcpy(eword[defnum - 1], definition);                 // We add the new definition on the last line of the matrix.
+			defnum++;                 /// We increase the defnumber since we've added a new one in this case.
+			strcpy(eword[defnum - 1], definition);                 /// We add the new definition on the last line of the matrix.
 			fclose(f);
 			FILE *g = fopen(word, "w");
 			fprintf(g, "%d\n", defnum);
@@ -117,18 +138,19 @@ void UpdateSequence()         /// This function deals with Updating a word from 
 			fclose(g);
 		}
 	}
-	if (sectype == 4)                 // Secondary type 4 for removing a definition of an already existing word.
+	/// ---------------------------------------------------------------------
+	if (sectype == 4)                 /// Secondary type 4 for removing a definition of an already existing word.
 	{
 		if (set_search(set, word, strcmp))
 		{
 			FILE *f = fopen(word, "r");
 			fscanf(f, "%d", &defnum);
 			fgetc(f);
-			for (i = 0;i <= defnum - 1;i++)                 // Reading the matrix of definitions from the file.
+			for (i = 0;i <= defnum - 1;i++)                 /// We read the matrix of definitions from the file.
 				fgets(eword[i], 100, f);
 			for (i = defnumber;i <= defnum - 1;i++)
-				strcpy(eword[i - 1], eword[i]);                 // For each definition after the one we want to delete, we just move them one row back, deleting the definition we wanted to remove.
-			defnum--;                 // We decrease the number of definitions since we just deleted one.
+				strcpy(eword[i - 1], eword[i]);                 /// For each definition after the one we want to delete, we just move them one row back, deleting the definition we wanted to remove.
+			defnum--;                 /// We decrease the number of definitions since we just deleted one.
 			fclose(f);
 			FILE *g = fopen(word, "w");
 			fprintf(g, "%d\n", defnum);
@@ -141,10 +163,14 @@ void UpdateSequence()         /// This function deals with Updating a word from 
 			fclose(g);
 		}
 	}
-
+	/// @see defnumber, eword, sectype, word
 }
 void SearchSequence() /// This function deals with Searcing a word in the dictionary.
 {
+	/*!
+	* 	\param word The vector word is used to store the word we're currently inserting.
+	* 	\param eword The char matrix eword is used to store the entire content of the word we're currently displaying.
+	*/
 	fscanf(fi, "%s", word);
 	fgetc(fi);
 	if (set_search(set, word, strcmp))
@@ -152,10 +178,10 @@ void SearchSequence() /// This function deals with Searcing a word in the dictio
 		FILE *f = fopen(word, "r");
 		fscanf(f, "%d", &defnum);
 		fgetc(f);
-		for (i = 0;i <= defnum - 1;i++)                 // Creating the matrix with the definitions for our word.
+		for (i = 0;i <= defnum - 1;i++)                 /// Creating the matrix with the definitions for our word.
 			fgets(eword[i], 100, f);
 		printf("The definitions for the word %s are:\n", word);
-		for (i = 0;i <= defnum - 1;i++)                 // For this case we just print the content of the matrix for the respective word.
+		for (i = 0;i <= defnum - 1;i++)                 /// For this case we just print the content of the matrix for the respective word.
 		{
 			for (j = 0;eword[i][j] != '\0';j++)
 				printf("%c", eword[i][j]);
@@ -179,17 +205,17 @@ void Compute()
 int main()
 {
 	/*
-	Different type explanations:
-	1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
-	2 -> Splits into 4 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
-							  2. Clear the word definitions.
-	                          3. Add a new definition for the respective word.
-	                          4. Remove a single definiton.(Will be given as a parameter in the test cases)
-	3 -> Look-up a word and show its definitions.
-
-	How the file layout for each word will be:
-	First line will represent the number of definitions our word has.(defnum)
-	The next defnum lines will consist of strings where each one represents a definition for that word.
+	*Different type explanations:
+	*1 -> Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+	*2 -> Splits into 4 cases: 1. Update a single definition.(Will be given as a parameter in the test cases)
+	*						  2. Clear the word definitions.
+	*                         3. Add a new definition for the respective word.
+	*                         4. Remove a single definiton.(Will be given as a parameter in the test cases)
+	*3 -> Look-up a word and show its definitions.
+	*
+	*How the file layout for each word will be:
+	*First line will represent the number of definitions our word has.(defnum)
+	*The next defnum lines will consist of strings where each one represents a definition for that word.
 	*/
 	if (!Reading())
 	{
