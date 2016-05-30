@@ -4,7 +4,6 @@
 * \author Turcu Gabriel and Stoica Alexandru
 * \date 30.05.2016
 */
-
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
