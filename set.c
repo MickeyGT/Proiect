@@ -1,15 +1,25 @@
 #include"set.h"
 #include<string.h>
 #include<stdio.h>
-
+#include<stdlib.h>
 
 void set_init(set_node **set)
 {
+	/*!
+	* 	\param set A pointer to the red-black tree structure.
+	*/
+
 	*set = NULL;
 }
 
+//* Performs a left rotation in the red-black tree. */
 static void left_rotate(set_node **root, set_node *node)
 {
+	/*!
+	* 	\param root A pointer to the root red-black tree structure.
+	*   \param node A pointer to the node from where the rotation should begin
+	*/
+
 	//Set z as the right child
 	set_node *z = node->right;
 
@@ -39,8 +49,14 @@ static void left_rotate(set_node **root, set_node *node)
 
 }
 
+//* Performs a right rotation in the red-black tree. */
 static void right_rotate(set_node **root, set_node *node)
 {
+	/*!
+	* 	\param root A pointer to the root red-black tree structure.
+	*	\param node A pointer to the node from where the rotation should begin
+	*/
+
 	//Set z as the left child
 	set_node *z = node->left;
 
@@ -71,9 +87,18 @@ static void right_rotate(set_node **root, set_node *node)
 
 }
 
-void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const void*, const void*))
+void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void*, const void*))
 {
-	//If the set is empty then we will insert a node which is black
+
+	/*!
+	* 	\param root A pointer to the red-black tree's root.
+	* 	\param elem Element which should be inserted.
+	* 	\param size The side of the element which should be inserted.
+	* 	\param cmp A comparator which should return the following values for these cases: -1 - compares less, 0 - equal , 1- doesn't compare less.
+	*/
+
+	/// If the set is empty then it will insert a node which is black, storing the elem inside it and making the childs and partent NULL.
+
 	if(*root == NULL)
 	{
 		(*root) = malloc(sizeof(set_node)); //Allocating size for the set
@@ -86,14 +111,15 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 		(*root)->left = (*root)->right = (*root)->parent = NULL; //setting the  children and the parent of the first node as non_existent(they are considered as black nodes)
 
 	}
-	else  //If the set is not empty then we will insert a node which is red
+	///If set is not empty then it will insert a node which is red
+	else  
 	{
-		//Finding the position for the node into the set.If it already exists then we will do nothing
+		/// It find the position for the node into the set.If it already exists then it will do nothing
 
 		set_node *y = NULL; //Parent of the node
 		set_node *x = *root; //Current node
 
-		//We do the same search as in a Binary Search Tree, except in case of equality we return since the elements need to be unique
+		/// The search is the same as in a Binary Search Tree, except the case of equality in which the function will terminate
 		while (x != NULL)
 		{
 			y = x;
@@ -122,9 +148,10 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 			y->right = x;
 
 
-		/*While the parent of the inserted root is red then we are violating the case in which
-		  both child and parent should not be red*/
-
+		/// While the proprieties of red-black tree are broken after the insertion of the desired node  3 cases will be covered:
+		/// The case in which no rotation is needed, just a change a of coloring
+		/// The case in which a single rotation is needed
+		/// The case in which 2 rotation are needed 
 		while (x->parent != NULL && x->parent->color == RED)
 		{
 			//If the parent is in the left
@@ -206,6 +233,12 @@ void set_insert(set_node **root, void *elem,const int size, int (*cmp)(const voi
 
 int set_search(set_node *set, void *elem, int(*cmp)(const void*, const void*))
 {
+	/*!
+	* 	\param set A pointer to the set.
+	* 	\param elem Element which should be searched
+	* 	\param cmp A comparator which should return the following values for these cases: -1 - compares less, 0 - equal , 1- doesn't compare less.
+	*/
+
 	while (set != NULL)
 		if (cmp(set->value, elem) > 0)
 			set = set->left;
