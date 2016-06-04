@@ -25,16 +25,15 @@
 % sections
 \section{Problem statement}
 (Team of 2) Write a dictionary application. The dictionary should allow for in-
-serting a word, updating the definition of an existing word and looking up defi-
-nition of a word. Note that a word may have multiple definitions attached to it.
+serting a word, updating the definition of an existing word and looking up definition of a word. Note that a word may have multiple definitions attached to it.
 The dictionary should use files for storing and loading its data. \linebreak
-The alghorithm should be able to Insert a new word to the dictionary, Update a word from the dictionary
+The algorithm should be able to Insert a new word to the dictionary, Update a word from the dictionary
 in multiple ways and Look-up and display a word's definitions.
 \linebreak
 \linebreak
 This is how the input will be given in the test file:
 	Different type explanations:
-	\begin{enumerate}	\item Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+	\begin{enumerate}	\item Straight up insert, requires name, definition and will also add 1 to first line to specify 1 definition.
 		\item \begin{enumerate} \item[2.1] Update a single definition.(Will be given as a parameter in the test cases)
 		\item[2.2] Clear the word definitions.
 		\item[2.3] Add a new definition for the respective word.
@@ -44,18 +43,18 @@ This is how the input will be given in the test file:
 	
 	How the file layout for each word will be:
 	The name of the file will be the name of the word.
-	First line will represent the number of definitions our word has.(defnum)
+	First line will represent the number of definitions our word has(defnum).
 	The next defnum lines will consist of strings where each one represents a definition for that word.
 %%This document is about \LaTeX{}~\cite{lamport94}
 \pagebreak
 \section{Pseudocode}
-\mbox{For the set.c functions the following pseudocode has been used:}
+\mbox{For the set.c functions the following pseudo-code has been used:}
 \linebreak
 \linebreak
-\mbox{The following pseudocode for the Insert function:}
+\mbox{The following pseudo-code for the Insert function:}
 \linebreak
 \includegraphics{Screenshot_1.png}
-\mbox{The following pseudocode for the Left-Rotate and Right-Rotate functions:}
+\mbox{The following pseudo-code for the Left-Rotate and Right-Rotate functions:}
 \linebreak
 \includegraphics{Screenshot_2.png}
 \linebreak
@@ -137,11 +136,11 @@ The high level architectural overview of the application.
 \linebreak
 This is how the input will be given in the test file:
 Different type explanations:
-\begin{enumerate}	\item Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+\begin{enumerate}	\item Straight up insert, requires name, definition and will also add 1 to first line to specify 1 definition.
 	\item \begin{enumerate} \item[2.1] Update a single definition.(Will be given as a parameter in the test cases)
 		\item[2.2] Clear the word definitions.
 		\item[2.3] Add a new definition for the respective word.
-		\item[2.4] Remove a single definiton.(Will be given as a parameter in the test cases) \end{enumerate}
+		\item[2.4] Remove a single definition.(Will be given as a parameter in the test cases) \end{enumerate}
 	\item Look-up a word and show its definitions.\end{enumerate}
 \item
 \mbox{The Specification of the output.}\linebreak
@@ -150,15 +149,15 @@ The output is represented in 2 forms:
 
 -One in files, which each files represents a word,where the first line contains a number n which
 represents the number of definition and the next n lines contain the definition. This form of output
-can be achieved when a word is inserted or a definition is updated
+can be achieved when a word is inserted or a definition is updated.
 
--One in console, where the word and it's definition are printed.This form of output can be achived when
+-One in console, where the word and it's definition are printed. This form of output can be achived when
 a search operation appears.
 \pagebreak
 \item
 The list of all the modules in the application and their description.
  \begin{itemize}
- 	\item set: adds the neccesary elements in the set or searches for their existence
+ 	\item set: adds the necessary elements in the set or searches for their existence
  	\item dictionary: handles the updating,searching and insertion operation of words and definition.
  \end{itemize}
  
@@ -167,31 +166,31 @@ The list of all the functions in the application, grouped by modules.
 \begin{itemize}
 	\item set:
 	\begin{itemize}
-		\item void \verb|set_init|: which initialises the set structure to NULL
+		\item void \verb|set_init|: which initializes the set structure to NULL.
 		\item \verb|static void left_rotate|: rotates to the left the nodes in a subtree when the rules of red black tree are trespassed.
 		\item  \verb|static void right_rotate|: rotates to the right the nodes in a subtree when the rules of red black tree are trespassed.
 		\item  \verb|void set_insert|: inserts a new item into the set. This function uses the binary search tree finding algorithm
 		and it searches if the following cases are validated: the uncle is red and we can make the parent of the uncle red and the parent of the current node and 
 		uncle black, or the case when it needs a right rotate or the case where it needs both left and right rotates.These cases are available if the parent is 
-		in the left.To the parent in the right is exactly the opossite
+		in the left. To the parent in the right is exactly the opposite.
 		\item  \verb|int set_search|: searches if a item exists or not in a set.If it doesn't exist then it returns 0 or 1 if it exists.
 	\end{itemize}
 	\item dictionary:
 	\begin{itemize}
-		\item  \verb|void InsertSequence|: this function inserts a new word along with a definition in the dictionary. Element are unique
+		\item  \verb|void InsertSequence|: this function inserts a new word along with a definition in the dictionary. Elements are unique
 		so any duplicate word will not be inserted. It uses the \verb|set_search| to find if a word already exists.
 		\item \verb|void UpdateSequence|: this function can update definition for a word in 4 different ways:
 		\begin{itemize}
 			\item update a specific definition.
-			\item clear all definitions by creating a new file over the old one and outputting 0 which means there are no definition
-			\item add a new definition in the end of an already existing word.It increases the number of definitions and adds a new definition to the end
+			\item clears all the definitions by creating a new file over the old one and outputting 0 which means there are no definitions.
+			\item adds a new definition in the end of an already existing word. It increases the number of definitions and adds a new definition to the end.
 			\item remove a definition from a word. It moves all the definitions from the right of the current definition by one position to the left,overwriting the current
-			definition.It decreases the number of definitions with one.
+			definition. It decreases the number of definitions with one.
 		\end{itemize}
 		\item  \verb|void SearchSequence|: this function searches for a word in the dictionary. If it finds it then it outputs all it's definitions
 	\end{itemize}
 		\item  \verb|void Compute|: computes the desired operation, insertion, searching or updating.
-		\item  \verb|void Reading|: initialises the dictionary and prepares the test file for reading.
+		\item  \verb|void Reading|: initializes the dictionary and prepares the test file for reading.
 	
 \end{itemize}
 \end{itemize}
