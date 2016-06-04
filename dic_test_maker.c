@@ -17,24 +17,30 @@
 	The next defnum lines will consist of strings where each one represents a definition for that word.
 */
 
-//A function which generates a random number in the interval [a,b]
+// A function which generates a random number in the interval [a,b]
 int random_numb(int a, int b)
 {
 	return a + rand() % (b - a + 1);
 }
 
-//Vector which holds all the possible words from a dictionary
+// Vector which holds all the possible words from a dictionary
 char words[110000][30];
 
-//Number of definitions for a random word
+// Number of definitions for a random word
 int size_def[110000];
 
-//Total number of words which can be random selected
+//Word is inserted
+
+int word_is[110000];
+
+// Total number of words which can be random selected
 int word_size;
 
+// All possible letters that should be random generated 
 char letters[53] = "qwertyiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM ";
 
-FILE *in, *out;
+// Input file
+FILE *in,*out;
 
 int main()
 {
@@ -43,7 +49,7 @@ int main()
 	scanf("%d", &N); // Reading the number of total operations
 
 	in = fopen("words.in", "r");
-	out = fopen("test10.out", "w");
+	out = fopen("test6.out", "w");
 
 	fprintf(out, "%d\n", N);
 
@@ -66,23 +72,30 @@ int main()
 
 		if (command == 1)
 		{
-			//Printing the command
-			fprintf(out,"%d ", command);
+			if (word_is[spec_word] == 0)
+			{
+				word_is[spec_word] = 1;
 
-			//Priting the word
-			for (j = 0;words[spec_word][j] != '\n';++j)
-				fprintf(out, "%c", words[spec_word][j]);
+				//Printing the command
+				fprintf(out, "%d ", command);
 
-			fprintf(out, " ");
+				//Priting the word
+				for (j = 0;words[spec_word][j] != '\n';++j)
+					fprintf(out, "%c", words[spec_word][j]);
 
-			//Priting a definiton with random letters
-			for (j = 1;j <= spec_def;++j)
-				fprintf(out,"%c", letters[random_numb(0, 51)]);
+				fprintf(out, " ");
 
-			fprintf(out,"\n");
+				//Priting a definiton with random letters
+				for (j = 1;j <= spec_def;++j)
+					fprintf(out, "%c", letters[random_numb(0, 51)]);
 
-			//Making the size of specific word 1, since it has just a definition
-			size_def[spec_word] = 1;
+				fprintf(out, "\n");
+
+				//Making the size of specific word 1, since it has just a definition
+				size_def[spec_word] = 1;
+			}
+			else
+				--i;
 		}
 		else if (command == 2)
 		{
