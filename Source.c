@@ -30,7 +30,7 @@ FILE *fi;
 /** Reading function used to initialize and see if our file exists and if it does, it reads n. @see n*/
 int Reading()
 {
-	fi = fopen("test10.out", "r");
+	fi = fopen("test6.out", "r");
 	if (fi == NULL)
 		return 0;
 	set_init(&set);
@@ -70,7 +70,9 @@ int main()
 		return 0;
 	}
 	for (k = 1;k <= n;k++)
-		Compute();
+	{
+			Compute();
+	}
 	system("pause");
 	return 0;
 }
