@@ -12,28 +12,28 @@ void set_init(set_node **set)
 	*set = NULL;
 }
 
-//* Performs a left rotation in the red-black tree. */
-static void left_rotate(set_node **root, set_node *node)
+/// Performs a left rotation in the red-black tree.
+void left_rotate(set_node **root, set_node *node)
 {
 	/*!
 	* 	\param root A pointer to the root red-black tree structure.
 	*   \param node A pointer to the node from where the rotation should begin
 	*/
 
-	//Set z as the right child
+	///Set z as the right child.
 	set_node *z = node->right;
 
-	//Right child of node becomes the left child of the right child of the node
+	///Right child of node becomes the left child of the right child of the node.
 	node->right = z->left;
 
-	//If the right child,now moved is not null it means that is has a parent and we must update it
+	///If the right child,now moved is not null it means that is has a parent and we must update it.
 	if (z->left != NULL)
 		z->left->parent = node;
 
-	//Update the parent of the initial right child of the node
+	///Update the parent of the initial right child of the node.
 	z->parent = node->parent;
 
-	//Update the child of the parent of the initial node
+	///Update the child of the parent of the initial node.
 	if (node->parent == NULL)
 		(*root) = z;
 	else if (node->parent->left == node)
@@ -41,37 +41,37 @@ static void left_rotate(set_node **root, set_node *node)
 	else
 		node->parent->right = z;
 
-	//Update the child of the the right child of the initial node
+	///Update the child of the the right child of the initial node.
 	z->left = node;
 
-	//Update the parent of the initial node
+	///Update the parent of the initial node
 	node->parent = z;
 
 }
 
-//* Performs a right rotation in the red-black tree. */
-static void right_rotate(set_node **root, set_node *node)
+/// Performs a right rotation in the red-black tree. 
+ void right_rotate(set_node **root, set_node *node)
 {
 	/*!
 	* 	\param root A pointer to the root red-black tree structure.
 	*	\param node A pointer to the node from where the rotation should begin
 	*/
 
-	//Set z as the left child
+	///Set z as the left child
 	set_node *z = node->left;
 
 
-	//Left child of node becomes the right child of the left child of the node
+	///Left child of node becomes the right child of the left child of the node
 	node->left = z->right;
 
-	//If the left child,now moved is not null it means that is has a parent and we must update it
-	if (z->right!= NULL)
+	///If the left child,now moved is not null it means that is has a parent and we must update it
+	if (z->right != NULL)
 		z->right->parent = node;
 
-	//Update the parent of the initial left child of the node
+	///Update the parent of the initial left child of the node
 	z->parent = node->parent;
 
-	//Update the child of the parent of the initial node
+	///Update the child of the parent of the initial node
 	if (node->parent == NULL)
 		(*root) = z;
 	else if (node->parent->right == node)
@@ -79,15 +79,15 @@ static void right_rotate(set_node **root, set_node *node)
 	else
 		node->parent->left = z;
 
-	//Update the child of the the left child of the initial node
+	///Update the child of the the left child of the initial node
 	z->right = node;
 
-	//Update the parent of the initial node
+	///Update the parent of the initial node
 	node->parent = z;
 
 }
 
-void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void*, const void*))
+void set_insert(set_node **root, void *elem, const int size, int(*cmp)(const void*, const void*))
 {
 
 	/*!
@@ -99,27 +99,29 @@ void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void
 
 	/// If the set is empty then it will insert a node which is black, storing the elem inside it and making the childs and partent NULL.
 
-	if(*root == NULL)
+	if (*root == NULL)
 	{
-		(*root) = malloc(sizeof(set_node)); //Allocating size for the set
+		(*root) = malloc(sizeof(set_node)); ///Allocating size for the set
 
-		(*root)->color = BLACK; //Setting the color black of the first node
-		(*root)->value = malloc(size); //Allocating size for the value which needs to be stored
+		(*root)->color = BLACK; ///Setting the color black of the first node
+		(*root)->value = malloc(size); ///Allocating size for the value which needs to be stored
 
-		memcpy((*root)->value, elem, size); //Copying the element into the node
+		memcpy((*root)->value, elem, size); ///Copying the element into the node
 
-		(*root)->left = (*root)->right = (*root)->parent = NULL; //setting the  children and the parent of the first node as non_existent(they are considered as black nodes)
+		(*root)->left = (*root)->right = (*root)->parent = NULL; ///Setting the  children and the parent of the first node as non_existent(they are considered as black nodes)
 
 	}
 	///If set is not empty then it will insert a node which is red
-	else  
+	else
 	{
 		/// It find the position for the node into the set.If it already exists then it will do nothing
 
-		set_node *y = NULL; //Parent of the node
-		set_node *x = *root; //Current node
+		///Parent of the node
+		set_node *y = NULL; 
+		///Current node
+		set_node *x = *root; 
 
-		/// The search is the same as in a Binary Search Tree, except the case of equality in which the function will terminate
+							 /// The search is the same as in a Binary Search Tree, except the case of equality in which the function will terminate
 		while (x != NULL)
 		{
 			y = x;
@@ -130,7 +132,7 @@ void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void
 			else
 				return;
 		}
-		//Creating the node which needs to be inserted
+		///Creating the node which needs to be inserted
 		x = malloc(sizeof(set_node));
 
 		x->color = RED;
@@ -141,7 +143,7 @@ void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void
 		x->value = malloc(size);
 		memcpy(x->value, elem, size);
 
-		//Inserting the node to the left or the right of the parent,as in a binary search tree.
+		///Inserting the node to the left or the right of the parent,as in a binary search tree.
 		if (cmp(y->value, elem) > 0)
 			y->left = x;
 		else
@@ -154,15 +156,15 @@ void set_insert(set_node **root, void *elem,const int size, int(*cmp)(const void
 		/// The case in which 2 rotation are needed 
 		while (x->parent != NULL && x->parent->color == RED)
 		{
-			//If the parent is in the left
+			///If the parent is in the left
 
 			if (x->parent->parent->left == x->parent)
 			{
-				//Store the uncle of the parent
+				///Store the uncle of the parent
 				y = x->parent->parent->right;
 
 				/*Uncle is red so we can make the parent of the uncle red(if is not the root) and
-				  the parent of  the current node and uncle black*/
+				the parent of  the current node and uncle black*/
 				if (y != NULL && y->color == RED)
 				{
 					if (y->parent != NULL)
@@ -247,5 +249,5 @@ int set_search(set_node *set, void *elem, int(*cmp)(const void*, const void*))
 		else
 			return 1;
 
-   return 0;
+		return 0;
 }

@@ -16,8 +16,8 @@ int n;
 /** The variable type will be used to store the current operation we will have to perform. */
 int type;
 /** Prameter used in different for's throughout the program.*/
-int k
-/** The vector word is used to store the word we're currently working with. */;
+int k;
+/** The vector word is used to store the word we're currently working with. */
 char word[100];
 /** The vector definition is used to store the current definition we're working with.*/
 char definition[100];
@@ -30,7 +30,7 @@ FILE *fi;
 /** Reading function used to initialize and see if our file exists and if it does, it reads n. @see n*/
 int Reading()
 {
-	fi = fopen("test6.out", "r");
+	fi = fopen("test8.out", "r");
 	if (fi == NULL)
 		return 0;
 	set_init(&set);
@@ -67,11 +67,12 @@ int main()
 	if (!Reading())
 	{
 		printf("The file couldn't be opened.");
+		system("pause");
 		return 0;
 	}
 	for (k = 1;k <= n;k++)
 	{
-			Compute();
+		Compute();
 	}
 	system("pause");
 	return 0;
