@@ -95,18 +95,105 @@ This is how the input will be given in the test file:
 
 \item
 The high level architectural overview of the application.
-
+\begin{itemize}
+  \item The application uses 5 main functions to resolve the given task and a number of other auxiliary functions that are called in the main one in order to make the whole program more organized.
+  
+  \item The main functions are represented by :
+  \begin{itemize}
+  \item InsertSequence : this function inserts a new word along with a definition in the dictionary. Elements are unique
+  so any duplicate words will not be inserted.
+  \item UpdateSequence : this function can update a word's definitions in 4 different ways:
+   \begin{itemize}
+  \item Update a specific definition.
+  \item Clear all definitions.
+  \item Add a new definition at the end of an already existing word.
+  \item Remove a specific definition from a word.
+	\end{itemize}
+  \item SearchSequence : this function searches for a word in the dictionary. If it finds it then it outputs all of it's definitions.
+  
+  \item Compute : computes the desired operation, insertion, searching or updating.
+  
+  \item Reading : initializes the dictionary and prepares the test file for reading.
+	\end{itemize}
+  
+  \item The application also uses a red-black tree data structure to illustrate a set of words. The data structure was chosen
+  because the dictionary needs to find fast if a word is already in the set or not. The elements in the set are unique,
+  so no duplicates will be added. The following functions are used to implement the set:
+  \begin{itemize}
+  \item \verb|set_init|: which initializes the set.
+  
+  \item \verb|left_rotate|: which rotates to  left the nodes in a subtree to maintain the proprieties of a red black tree.
+  
+  \item \verb|right_rotae|: which rotates to right the nodes in a subtree to maintain the proprieties of a red black tree.
+  
+  \item \verb|set_insert|: inserts a new item into the set. This function uses the binary search tree finding algorithm
+  and the rotations mentioned above to maintain a log n height.
+  
+  \item \verb|set_search|: searches if a item exists or not in the set.
+  \end{itemize}
+\end{itemize}
 \item
-The Specification of the input.
-
+\mbox{The Specification of the input.}\linebreak
+\linebreak
+This is how the input will be given in the test file:
+Different type explanations:
+\begin{enumerate}	\item Straight up insert, requires name, definiton and will also add 1 to first line to specify 1 definition.
+	\item \begin{enumerate} \item[2.1] Update a single definition.(Will be given as a parameter in the test cases)
+		\item[2.2] Clear the word definitions.
+		\item[2.3] Add a new definition for the respective word.
+		\item[2.4] Remove a single definiton.(Will be given as a parameter in the test cases) \end{enumerate}
+	\item Look-up a word and show its definitions.\end{enumerate}
 \item
-The Specification of the output.
+\mbox{The Specification of the output.}\linebreak
+\linebreak
+The output is represented in 2 forms:
 
+-One in files, which each files represents a word,where the first line contains a number n which
+represents the number of definition and the next n lines contain the definition. This form of output
+can be achieved when a word is inserted or a definition is updated
+
+-One in console, where the word and it's definition are printed.This form of output can be achived when
+a search operation appears.
+\pagebreak
 \item
 The list of all the modules in the application and their description.
-
+ \begin{itemize}
+ 	\item set: adds the neccesary elements in the set or searches for their existence
+ 	\item dictionary: handles the updating,searching and insertion operation of words and definition.
+ \end{itemize}
+ 
 \item
 The list of all the functions in the application, grouped by modules.
+\begin{itemize}
+	\item set:
+	\begin{itemize}
+		\item void \verb|set_init|: which initialises the set structure to NULL
+		\item \verb|static void left_rotate|: rotates to the left the nodes in a subtree when the rules of red black tree are trespassed.
+		\item  \verb|static void right_rotate|: rotates to the right the nodes in a subtree when the rules of red black tree are trespassed.
+		\item  \verb|void set_insert|: inserts a new item into the set. This function uses the binary search tree finding algorithm
+		and it searches if the following cases are validated: the uncle is red and we can make the parent of the uncle red and the parent of the current node and 
+		uncle black, or the case when it needs a right rotate or the case where it needs both left and right rotates.These cases are available if the parent is 
+		in the left.To the parent in the right is exactly the opossite
+		\item  \verb|int set_search|: searches if a item exists or not in a set.If it doesn't exist then it returns 0 or 1 if it exists.
+	\end{itemize}
+	\item dictionary:
+	\begin{itemize}
+		\item  \verb|void InsertSequence|: this function inserts a new word along with a definition in the dictionary. Element are unique
+		so any duplicate word will not be inserted. It uses the \verb|set_search| to find if a word already exists.
+		\item \verb|void UpdateSequence|: this function can update definition for a word in 4 different ways:
+		\begin{itemize}
+			\item update a specific definition.
+			\item clear all definitions by creating a new file over the old one and outputting 0 which means there are no definition
+			\item add a new definition in the end of an already existing word.It increases the number of definitions and adds a new definition to the end
+			\item remove a definition from a word. It moves all the definitions from the right of the current definition by one position to the left,overwriting the current
+			definition.It decreases the number of definitions with one.
+		\end{itemize}
+		\item  \verb|void SearchSequence|: this function searches for a word in the dictionary. If it finds it then it outputs all it's definitions
+	\end{itemize}
+		\item  \verb|void Compute|: computes the desired operation, insertion, searching or updating.
+		\item  \verb|void Reading|: initialises the dictionary and prepares the test file for reading.
+	
+\end{itemize}
 \end{itemize}
 
 
@@ -121,12 +208,14 @@ One thing we achieved during the development of the project is learning the high
 One of the interesting parts in the development process of the project was understanding the functions that we have already been using for a while but never really knew how their C implementation looked like.
 \linebreak
  Another interesting part of the project was the learning of the different implementations and functions that come with the Red-Black trees.
+ \linebreak
+ One challenging part was figuring out what was wrong in our tests that had 100000 commands. We then figured out that we had a bunch of words that we couldn't create files of because they had names reserved by Microsoft for the Windows operating system. Some of the names were: aux, nul, con. After we removed them from the word-list, the program worked well.
 
-\subsection{Future directions for extending the project}
+\subsection{Future directions for extending the project} 
 One future direction for this project would be implementing it in a website
 or even a mobile application and perhaps adopting a design similar to what Wikipedia does with its articles. Everyone would be able to insert or update a word as long as they provide a source that shows that the operation that they want to perform is valid and it gets approved by an administrator.
 
-
+\pagebreak
 
 \begin{thebibliography}{9}
 	
